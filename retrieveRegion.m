@@ -1,4 +1,4 @@
-function [bw,Ps]=retrieveRegion(ctl,seg, opt)
+function [Ps, labmat, bw]=retrieveRegion(ctl,seg, opt)
 
 sz=size(ctl);
 se=strel('disk',opt.reconstructThickness,0);
@@ -16,7 +16,7 @@ for cellID=1:1:numCell
     pts = SortCellPixel(ctlPix);
     
     % fetch the corresponding region
-    %a=ismember(labmat,cellID);
+
     a=bwmorph(ctlPix,'spur');
     seg_region=imdilate(a,se) & seg;
     ss=bwconncomp(seg_region,4);

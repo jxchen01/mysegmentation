@@ -1,18 +1,21 @@
-
 opt=setParameter_local();
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-img=cell(1,opt.numFrame);
-for i=30:1:opt.numFrame
+matEachFrame=cell(1,opt.numFrame);
+cellEachFrame=cell(1,opt.numFrame);
+
+for i=1:1:opt.numFrame
     disp(['frame: ',num2str(i)]);
-    str=['../sq',num2str(opt.sqNum),'/raw/img0',...
-        num2str(opt.idxBase+i),opt.imgType];
  
     %%%%%% read raw image %%%%%%%
-    I0=imread(str);
+    raw_str=[opt.filePath,'\sq',num2str(opt.sqNum),'\raw\img0',...
+        num2str(opt.idxBase+i),opt.imgType];
+    I0=mat2gray(imread(raw_str));
     
     %%%% step 1: initial segmentation %%%%%%
-    I1 = prediction(myModel, I0, numPixel, opt);
+    seg_str=[opt.filePath,'\sq',num2str(opt.sqNum),'\seg\img0',...
+        num2str(opt.idxBase+i),opt.imgType];
+    I1 =im2bw(imread(seg_str));
     
     %%%% step 2: remove non-cell region %%%%
     %%%% step 3: resovle intersection %%%%
@@ -26,10 +29,11 @@ for i=30:1:opt.numFrame
     
     I4= removeCrossing(I3,opt);
     
-    [bw,Ps] = retrieveRegion(I4,I1,opt);
+    [cellFrame, matFrame, bw] = retrieveRegion(I4,I1,opt);
     
     %%%% save the results %%%%
-    img{i}=struct('Raw',I0,'preseg',I1,'refined',I2,'finalBW',I4);
+    cellEachFrame{i}=cellFrame;
+    matEachFrame{i}=struct('Mat',matFrame);
 end
 
-save(['../sq',num2str(opt.sqNum),'/data.mat'],'img','-v7.3');
+save([opt.filePath,'\sq',num2str(opt.sqNum),'\seg.mat'],'cellEachFrame','matEachFrame','-v7.3');
