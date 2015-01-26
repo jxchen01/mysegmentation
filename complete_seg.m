@@ -33,7 +33,7 @@ for i=1:1:opt.numFrame
     
     %%%% save the results %%%%
     cellEachFrame{i}=cellFrame;
-    matEachFrame{i}=struct('Mat',matFrame);
+    matEachFrame{i}=struct('Mat',double(matFrame));
 end
 
 save([opt.filePath,'\sq',num2str(opt.sqNum),'\seg.mat'],'cellEachFrame','matEachFrame','-v7.3');
