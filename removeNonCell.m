@@ -30,6 +30,18 @@ for i=1:1:cc.NumObjects
     %%% check intersection %%%
    % try
     ctl_pruned = removeCrossing(ctl_init, opt);
+    
+    bp_check=bwmorph(ctl_pruned,'branchpoint');
+    loop_num=0;
+    while(any(bp_check(:)))
+        ctl_pruned = removeCrossing(ctl_pruned, opt);
+        bp_check=bwmorph(ctl_pruned,'branchpoint');
+        loop_num=loop_num+1;
+        if(loop_num>5)
+            disp('error in bw');
+            keyboard
+        end
+    end
 %     catch
 %         keyboard
 %     end

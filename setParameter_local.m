@@ -1,8 +1,8 @@
 function opt=setParameter_local()
 
 %%%% data information %%%%
-sqNum=11;
-numFrame=400;
+sqNum=5;
+numFrame=73;
 idxBase=100;
 imgType='.png';
 fpath = 'C:\Users\jchen16\Dropbox\Private\miccai2015';
