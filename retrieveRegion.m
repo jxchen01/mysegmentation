@@ -32,7 +32,7 @@ for cellID=1:1:numCell
     
     Ps{cellID}=struct('length',numel(cc.PixelIdxList{cellID}),'ctl',pts,'child',[],...
         'parent',[],'candi',[],'inflow',0,'outflow',0,'relaxinCost',0,...
-        'relaxOutCost',0,'seg',seg_region);
+        'relaxOutCost',0,'seg',seg_region,'cumFlow',[]);
     
 end
 

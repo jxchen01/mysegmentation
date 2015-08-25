@@ -12,13 +12,13 @@ labmat=labelmatrix(cc);
 R=zeros(size(I));
 for i=1:1:cc.NumObjects
     reg=ismember(labmat,i);
-    
+    reg=imfill(reg,'holes');
     %%% extract centerline %%%
     ctl = bwmorph(reg,'thin',Inf);
     
     %%% remove extra-thin or extra-thick regions %%%
     thickness=CellThicknesss(reg,ctl);
-    if(thickness<1.51 || thickness>5)
+    if(thickness<opt.minThickness || thickness>opt.maxThickness)
         labmat(reg)=0;
         continue;
     end
@@ -28,7 +28,6 @@ for i=1:1:cc.NumObjects
     ctl_init = pruneEP(ctl);
     
     %%% check intersection %%%
-   % try
     ctl_pruned = removeCrossing(ctl_init, opt);
     
     bp_check=bwmorph(ctl_pruned,'branchpoint');
@@ -42,10 +41,6 @@ for i=1:1:cc.NumObjects
             keyboard
         end
     end
-%     catch
-%         keyboard
-%     end
-
     R=R | ctl_pruned;
 end
 

@@ -17,12 +17,7 @@ bpIdx=labelmatrix(cc);
 R=ctl;
 for i=1:1:cc.NumObjects
     singleCross=ismember(bpIdx,i);
-%    try
-    [branchList, ~]= extractBranches(...
-        singleCross,cc.PixelIdxList{i}, ctl, labMat);
-%     catch
-%         keyboard
-%     end
+    [branchList, ~]= extractBranches(singleCross,cc.PixelIdxList{i}, ctl, labMat);
     %%%% analyze the branches at current junction %%%%
     rmList = branchAnalysis(branchList, singleCross);
     R(rmList)=0;
